@@ -1,6 +1,6 @@
 // Macht die Web-App nach dem ersten Besuch offline spielbar.
 // scripts/deploy_web.ps1 setzt die Version ein. Dadurch erkennt der Browser jedes Update.
-const VERSION = 'c5f18ee800687fd2';
+const VERSION = '4e9fee9482f0f141';
 const CACHE = 'lojra-shqip-' + VERSION;
 
 self.addEventListener('install', (event) => {

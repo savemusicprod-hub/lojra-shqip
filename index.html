@@ -10,24 +10,30 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Lojra Shqip">
+  <meta name="apple-mobile-web-app-title" content="Luaj">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="manifest" href="manifest.json">
-  <title>Lojra Shqip</title>
+  <title>Luaj</title>
   <style>
     html, body { margin: 0; height: 100%; background: #0F0F12; overscroll-behavior: none; }
     #loading { position: fixed; inset: 0; display: grid; place-items: center; }
-    #loading div {
-      width: 34px; height: 34px; border-radius: 50%;
-      border: 3px solid #27272D; border-top-color: #EF4444;
-      animation: spin .8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading svg { width: 88px; height: 88px; animation: breathe 1.4s ease-in-out infinite; }
+    @keyframes breathe { 50% { transform: scale(.94); opacity: .78; } }
+    @media (prefers-reduced-motion: reduce) { #loading svg { animation: none; } }
   </style>
 </head>
 <body>
-  <div id="loading"><div></div></div>
+  <div id="loading">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-label="Luaj">
+      <rect width="360" height="360" rx="88" fill="#E41E20"/>
+      <g fill="#0F0F12">
+        <circle cx="137" cy="107.5" r="34.5"/>
+        <circle cx="223" cy="107.5" r="34.5"/>
+        <path d="M180 181C170 165 158 154 142 153.5C110 154 80 152 56 143C59 162 70 176 88 182L74 200.5C83 214 101 219 119 217L105 236C119 243 138 243 152 238L180 286L208 238C222 243 241 243 255 236L241 217C259 219 277 214 286 200.5L272 182C290 176 301 162 304 143C280 152 250 154 218 153.5C202 154 190 165 180 181Z"/>
+      </g>
+    </svg>
+  </div>
   <script>
     window.lojraAppReady = () => {
       document.getElementById('loading')?.remove();
