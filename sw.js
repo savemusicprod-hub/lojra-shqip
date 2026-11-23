@@ -1,13 +1,14 @@
 // Macht die Web-App nach dem ersten Besuch offline spielbar.
-// precache.json wird von scripts/deploy_web.ps1 erzeugt.
-const PREFIX = 'lojra-shqip-';
+// scripts/deploy_web.ps1 setzt die Version ein. Dadurch erkennt der Browser jedes Update.
+const VERSION = 'c5f18ee800687fd2';
+const CACHE = 'lojra-shqip-' + VERSION;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
       const response = await fetch('precache.json', { cache: 'no-store' });
       const manifest = await response.json();
-      const cache = await caches.open(PREFIX + manifest.version);
+      const cache = await caches.open(CACHE);
       await cache.addAll(
         manifest.files.map((file) => new Request(file, { cache: 'no-store' })),
       );
@@ -19,16 +20,14 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
-      const response = await fetch('precache.json', { cache: 'no-store' });
-      const { version } = await response.json();
       const names = await caches.keys();
       await Promise.all(
         names
-          .filter((n) => n.startsWith(PREFIX) && n !== PREFIX + version)
+          .filter((n) => n.startsWith('lojra-shqip-') && n !== CACHE)
           .map((n) => caches.delete(n)),
       );
       await self.clients.claim();
-    })().catch(() => self.clients.claim()),
+    })(),
   );
 });
 
@@ -39,9 +38,7 @@ self.addEventListener('message', (event) => {
   if (!Array.isArray(urls)) return;
   event.waitUntil(
     (async () => {
-      const response = await fetch('precache.json', { cache: 'no-store' });
-      const { version } = await response.json();
-      const cache = await caches.open(PREFIX + version);
+      const cache = await caches.open(CACHE);
       const scope = new URL(self.registration.scope);
       const allowed = urls.filter((u) => {
         const url = new URL(u);
