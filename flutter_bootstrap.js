@@ -42,4 +42,10 @@ _flutter.buildConfig = {"engineRevision":"4d35714800b9266b6693a58e1225ecd7e9e45e
 
 
 // Der eigene Service Worker (sw.js) wird in index.html registriert.
-_flutter.loader.load();
+_flutter.loader.load({
+  onEntrypointLoaded: async (engineInitializer) => {
+    const appRunner = await engineInitializer.initializeEngine();
+    await appRunner.runApp();
+    window.lojraAppReady?.();
+  },
+});

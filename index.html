@@ -29,7 +29,7 @@
 <body>
   <div id="loading"><div></div></div>
   <script>
-    window.addEventListener('flutter-first-frame', () => {
+    window.lojraAppReady = () => {
       document.getElementById('loading')?.remove();
       if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
         const engine = performance.getEntriesByType('resource')
@@ -39,7 +39,7 @@
           registration.active?.postMessage({ cacheEngine: engine });
         });
       }
-    });
+    };
     if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').catch(() => {});
