@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <base href="/lojra-shqip/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Lojëra për shoqëri në shqip">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0F0F12">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Lojra Shqip">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <title>Lojra Shqip</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #0F0F12; overscroll-behavior: none; }
+    #loading { position: fixed; inset: 0; display: grid; place-items: center; }
+    #loading div {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 3px solid #27272D; border-top-color: #EF4444;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="loading"><div></div></div>
+  <script>
+    window.addEventListener('flutter-first-frame', () => {
+      document.getElementById('loading')?.remove();
+      if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
+        const engine = performance.getEntriesByType('resource')
+          .map((entry) => entry.name)
+          .filter((name) => name.includes('/canvaskit/'));
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.active?.postMessage({ cacheEngine: engine });
+        });
+      }
+    });
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
